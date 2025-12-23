@@ -11,7 +11,7 @@ LeanMCU_LowPower</br>
 LeanMCU_Setup</br>
 
 ## Usage:
-Clone/download the repo in a folder and open the folder with PlatformIO. Copy green_pill.cfg to the OpenOCD target directory, for windows C:\Users\\<your_user_name>\\.platformio\packages\tool-openocd\openocd\scripts\target
+Clone/download the repo in a folder and open the folder with PlatformIO. Copy green_pill.cfg to the OpenOCD target directory, for Windows C:\Users\\<your_user_name>\\.platformio\packages\tool-openocd\openocd\scripts\target
 
 ## License
 Dual Licensing Notice:
