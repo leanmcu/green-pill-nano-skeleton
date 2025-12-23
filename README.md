@@ -4,11 +4,11 @@ This is the skeleton application for PlatformIO you can use when you start a pro
 
 It contains all board configuration files and also a platformio.ini with most frequently used options for building, flashing and debugging.
 
-For extra convenience, the solution also includes the following libraries:
-STM32LowPower https://github.com/stm32duino/STM32LowPower
-STM32RTC https://github.com/stm32duino/STM32RTC
-LeanMCU_LowPower
-LeanMCU_Setup
+For extra convenience, the solution also includes the following libraries:</br>
+STM32LowPower https://github.com/stm32duino/STM32LowPower</br>
+STM32RTC https://github.com/stm32duino/STM32RTC</br>
+LeanMCU_LowPower</br>
+LeanMCU_Setup</br>
 
 ## Usage:
 Clone/download the repo in a folder and open the folder with PlatformIO
