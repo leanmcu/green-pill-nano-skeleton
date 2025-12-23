@@ -10,10 +10,10 @@ STM32RTC https://github.com/stm32duino/STM32RTC
 LeanMCU_LowPower
 LeanMCU_Setup
 
-##Usage:
+## Usage:
 Clone/download the repo in a folder and open the folder with PlatformIO
 
-##License
+## License
 Dual Licensing Notice:
 
 This source code is licensed under the terms of the GNU General Public
