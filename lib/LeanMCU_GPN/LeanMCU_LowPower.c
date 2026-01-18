@@ -32,37 +32,44 @@
 #include "LeanMCU_LowPower.h"
 #include <Arduino.h>
 
+
 void Disable_GPIO(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    // Enable all GPIO ports
+    
+    // Enable Clocks to configure pins
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOH_CLK_ENABLE();
 
+    // Set everything to ANALOG (Lowest leakage)
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-
-    // Configure all pins as analog to reduce leakage
     GPIO_InitStruct.Pin = GPIO_PIN_All;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
     HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+
 #ifdef DEBUG
-    // Enable GPIOA clock for SWD pins
-    GPIO_InitStruct.Pin = GPIO_PIN_13 | GPIO_PIN_14;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP; // Alternate Function Push-Pull
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF0_SWCLK; // AF0 is for SWD on STM32L0
+    // Debug Protection for GPIOA
+    // loop through pins 0-15 but SKIP 13 (SWDIO) and 14 (SWCLK)
+    for (uint16_t i = 0; i < 16; i++) {
+        uint16_t pin = (1 << i);
+        if (pin != GPIO_PIN_13 && pin != GPIO_PIN_14) {
+            GPIO_InitStruct.Pin = pin;
+            HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+        }
+    }
+    // KEEP GPIOA Clock ON so the Debugger hardware stays powered
+#else
+    // Non-debug mode: Disable everything on Port A
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    __HAL_RCC_GPIOA_CLK_DISABLE(); 
 #endif
 
-#ifndef DEBUG
-    __HAL_RCC_GPIOA_CLK_DISABLE(); // GPIOA is used for SWD pins in debug mode
-#endif
+    // Disable other clocks to save power
     __HAL_RCC_GPIOB_CLK_DISABLE();
     __HAL_RCC_GPIOC_CLK_DISABLE();
     __HAL_RCC_GPIOH_CLK_DISABLE();

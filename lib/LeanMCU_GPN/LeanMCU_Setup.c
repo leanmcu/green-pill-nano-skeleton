@@ -34,10 +34,13 @@
 void Setup_Board(void)
 {
 #ifdef DEBUG
+    HAL_DBGMCU_EnableDBGSleepMode();
     HAL_DBGMCU_EnableDBGStopMode();    // Enable debug mode in stop mode
     HAL_DBGMCU_EnableDBGStandbyMode(); // Enable debug mode in standby mode
-    delay(1000);                       // Wait for serial monitor to open
+    __HAL_RCC_DBGMCU_CLK_ENABLE();
+    delay(1000); // Wait for serial monitor to open
 #else
+    HAL_DBGMCU_DisableDBGSleepMode();
     HAL_DBGMCU_DisableDBGStopMode();    // Disable debug mode in stop mode
     HAL_DBGMCU_DisableDBGStandbyMode(); // Disable debug mode in standby mode
     __HAL_RCC_DBGMCU_CLK_DISABLE();
